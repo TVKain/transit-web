@@ -1,0 +1,11 @@
+PyMySql
+setuptools
+Flask-SQLAlchemy
+pymysql
+pydantic
+taskflow
+cotyledon
+fastapi 
+sqlmodel 
+openstacksdk
+alembic
