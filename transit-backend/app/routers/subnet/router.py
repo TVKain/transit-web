@@ -63,7 +63,14 @@ def delete(ident: str, vpc_id: str):
         connection = OpenStackAuth.get_connection(
             auth_url=region.auth_url, region_name=region.id
         )
+        
+        ports = connection.network.get_subnet_ports(ident)
 
+        port_devices = [port.device_owner for port in ports]
+        
+        if 'compute:nova' in port_devices:
+            raise Exception("There are still compute instances attached to the subnet")
+        
         virtual_router = connection.network.get_router(vpc.router_id)
 
         connection.remove_router_interface(virtual_router, subnet_id=ident)

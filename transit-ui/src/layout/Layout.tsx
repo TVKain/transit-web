@@ -11,11 +11,15 @@ import Error from "../pages/info/Error";
 
 export default function Layout() {
     const { regions, isLoading: regionIsLoading, isError } = useRegion();
-    const { isLoading: userIsLoading } = useUser();
+    const { isLoading: userIsLoading, isError: userIsError } = useUser();
     const { regionId, vpcId } = useParams();
 
     if (isError) {
         return <Error />;
+    }
+
+    if (userIsError) {
+        return <Error errorMessage="Invalid user" />
     }
 
     if (regionIsLoading || userIsLoading) {

@@ -3,6 +3,7 @@ import os
 import openstack
 
 
+
 class OpenStackAuth:
     """
     Return openstack client object
@@ -18,11 +19,11 @@ class OpenStackAuth:
         user_domain_name = os.getenv("USER_DOMAIN_NAME")
 
         return openstack.connect(
-            AUTH_URL=auth_url,
-            PROJECT_NAME=project_name,
-            USERNAME=username,
-            PASSWORD=password,
+            auth_url=auth_url,
+            project_name=project_name,
+            username=username,
+            password=password,
             region_name=region_name,
-            PROJECT_DOMAIN_NAME=project_domain_name,
-            USER_DOMAIN_NAME=user_domain_name,
+            project_domain_name=project_domain_name,
+            user_domain_name=user_domain_name,
         )
