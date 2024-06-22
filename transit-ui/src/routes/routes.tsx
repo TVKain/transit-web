@@ -10,13 +10,18 @@ import PublicRoute from '../components/route/PublicRoute';
 import Test from '../pages/test/Test';
 
 import Layout from '../layout/Layout';
-import VPC from '../pages/vpc/VPC';
+import VPC from '../pages/vpc/vpc/VPC';
 
 import Compute from '../pages/compute/Compute';
 import Subnet from '../pages/subnet/Subnet';
 import { Box } from '@mui/material';
 import RegionLoader from '../pages/loader/RegionLoader';
 import VPCLoader from '../pages/loader/VPCLoader';
+import TransitGateway from '../pages/transit_gateway/transit-gateway/TransitGateway';
+import TransitGatewayAttachment from '../pages/transit_gateway/transit-gateway-vpc-attachment/TransitGatewayVPCAttachment';
+import TransitGatewayRouteTable from '../pages/transit_gateway/transit-gateway-route-table/TransitGatewayRouteTable';
+import VPCRouteTable from '../pages/vpc/vpc-route-table/VPCRouteTable';
+import TransitGatewayPeeringAttachment from '../pages/transit_gateway/transit-gateway-peering-attachment/TransitGatewayPeeringAttachment';
 
 
 
@@ -77,8 +82,32 @@ const routes = [
                         element: <Subnet />
                     },
                     {
-                        path: 'vpcs',
+                        path: 'vpcs/vpcs',
                         element: <VPC />
+                    },
+                    {
+                        path: 'vpcs/route-tables',
+                        element: <VPCRouteTable />
+                    },
+                    {
+                        path: 'transit-gateways/transit-gateways',
+                        element: <TransitGateway />
+                    },
+                    {
+                        path: 'transit-gateways/vpc-attachments',
+                        element: <TransitGatewayAttachment />
+                    },
+                    {
+                        path: 'transit-gateways/route-tables',
+                        element: <TransitGatewayRouteTable />
+                    },
+                    {
+                        path: 'transit-gateways/peering-attachments',
+                        element: <TransitGatewayPeeringAttachment />
+                    },
+                    {
+                        path: 'transit-gateways/transit-gateways/:transitGatewayId/route-table',
+                        element: <TransitGatewayRouteTable />
                     }
                 ]
             },

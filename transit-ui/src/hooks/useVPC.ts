@@ -27,6 +27,27 @@ function useCreateVPC() {
     return { createVPCMutation };
 }
 
+function useGetVPCById(vpc_id: string) {
+    const {
+        data: vpc,
+        isLoading,
+        isError,
+        isFetching,
+    } = useQuery({
+        queryKey: ['vpc'],
+
+        refetchOnWindowFocus: false,
+
+        queryFn: async () => {
+            const res = await VPCApi.get(vpc_id);
+
+            return res;
+        },
+    });
+
+    return { vpc, isLoading, isError, isFetching };
+}
+
 function useGetVPC(user_id: string, region_id: string) {
     const {
         data: vpcs,
@@ -48,4 +69,4 @@ function useGetVPC(user_id: string, region_id: string) {
     return { vpcs, isLoading, isError, isFetching };
 }
 
-export { useGetVPC, useCreateVPC };
+export { useGetVPC, useCreateVPC, useGetVPCById };

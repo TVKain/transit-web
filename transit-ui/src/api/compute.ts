@@ -18,7 +18,6 @@ class ComputeApi {
             },
         });
 
-        console.log(result.data.computes);
         return result.data.computes;
     }
 

@@ -4,10 +4,11 @@ import Loading from "../info/Loading";
 import { Box } from "@mui/material";
 import Error from "../info/Error";
 
-export default function RegionLoader() {
+export default function VPCLoader() {
     const { regions, isLoading } = useRegion();
     const { regionId } = useParams();
 
+    console.log("VPC loader start")
 
     if (isLoading) {
         return (
@@ -39,8 +40,11 @@ export default function RegionLoader() {
 
 
     if (currentRegion.vpcs.length !== 0) {
+        console.log("VPC loader /vpc/vpcId/home")
         return <Navigate to={`/region/${currentRegion.id}/vpc/${currentRegion.vpcs[0].id}/home`} />;
     }
+
+    console.log("VPC loader /vpc/home")
 
     return <Navigate to={`/region/${currentRegion.id}/vpc/home`} />;
 }

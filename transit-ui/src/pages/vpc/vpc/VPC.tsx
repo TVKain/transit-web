@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 
-import { useDialog } from "../../context/DialogContext";
+import { useDialog } from "../../../context/DialogContext";
 
 import VPCGrid from "./VPCGrid";
 import VPCCreateForm from "./VPCCreateForm";

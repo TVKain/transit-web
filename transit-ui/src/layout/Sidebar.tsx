@@ -23,12 +23,40 @@ const menuItems = [
     },
     {
         label: "VPC",
-        to: "vpcs"
+        to: "vpcs",
+        type: "main"
+    },
+    {
+        label: "VPC",
+        to: "vpcs/vpcs",
+        type: "sub",
+    },
+    {
+        label: "Route Table",
+        type: "sub",
+        to: "vpcs/route-tables",
     },
     {
         label: "Transit gateway",
-        to: "transit-gateways"
-    }
+        to: "transit-gateways",
+        type: "main",
+    },
+
+    {
+        label: "Transit Gateway",
+        to: "transit-gateways/transit-gateways",
+        type: "sub"
+    },
+    {
+        label: "VPC Attachment",
+        to: "transit-gateways/vpc-attachments",
+        type: "sub"
+    },
+    {
+        label: "Peering Attachment",
+        to: "transit-gateways/peering-attachments",
+        type: "sub"
+    },
 ]
 
 
@@ -55,7 +83,7 @@ const Sidebar = () => {
     }
 
 
-    return <Box display='flex' flexDirection="column" width="100%" padding={2} gap={2}>
+    return <Box display='flex' flexDirection="column" width="100%" padding={2} gap={2} >
         {vpcId ?
             <>
                 <FormControl fullWidth size="small">
@@ -98,10 +126,18 @@ const Sidebar = () => {
                 menuItems.map((menuItem) =>
                     <Button
                         variant={location.pathname.includes(menuItem.to) ? "contained" : "text"}
-                        key={menuItem.label}
-                        color={location.pathname.includes(menuItem.to) ? "primary" : "inherit"}
-                        sx={{ justifyContent: "flex-start", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "auto" }}
-                        onClick={() => {
+                        key={menuItem.to}
+
+                        color={location.pathname.includes(menuItem.to) && menuItem.type !== "sub" ? "primary" : "inherit"}
+                        sx={{
+                            justifyContent: "flex-start",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                            overflow: "auto",
+                            fontSize: menuItem.type !== "sub" ? "0.85rem" : "0.7rem",
+                            marginLeft: menuItem.type === "sub" ? 2 : 0,
+                        }}
+                        onClick={menuItem.type === "main" ? () => { } : () => {
                             vpcId ? navigate(`/region/${regionId}/vpc/${vpcId}/${menuItem.to}`) :
                                 navigate(`/region/${regionId}/vpc/${menuItem.to}`)
                         }}

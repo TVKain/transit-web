@@ -20,6 +20,6 @@ export default function RegionLoader() {
     }
 
 
-    return <Navigate to={`/region/${regions![0]!.id}/vpc/`} />
+    return <Navigate to={`/region/${regions![0]!.id}/`} />
 }
 

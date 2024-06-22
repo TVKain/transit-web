@@ -117,6 +117,7 @@ def create(request: CreateSubnetRequest):
             cidr=request.network_address,
             ip_version="4",
             enable_dhcp=True,
+            dns_nameservers=["8.8.8.8"]
         )
     except openstack_exceptions.HttpException as e:
 

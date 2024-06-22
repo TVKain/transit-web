@@ -14,6 +14,17 @@ from app.routers.utils import utils
 router = APIRouter(prefix="/vpcs", tags=["vpcs"])
 
 
+@router.get("/{vpc_id}")
+def get(vpc_id: str):
+    vpc_repo = VPCRepository()
+
+    try:
+        vpc = vpc_repo.get(ident=vpc_id)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail="VPC does not exist") from e
+
+    return vpc
+
 @router.post(
     "/", response_model=CreateVPCResponse, responses={400: {"detail": "VPC exists"}}
 )

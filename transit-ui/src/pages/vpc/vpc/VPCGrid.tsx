@@ -1,10 +1,10 @@
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { useParams } from "react-router-dom";
 
-import { VPC } from "../../types/VPC";
+import { VPC } from "../../../types/VPC";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useGetVPC } from "../../hooks/useVPC";
-import EmptyPlaceholder from "../../components/ui/EmptyPlaceholder";
+import { useGetVPC } from "../../../hooks/useVPC";
+import EmptyPlaceholder from "../../../components/ui/EmptyPlaceholder";
 import { Cloud } from "@mui/icons-material";
 
 export default function VPCGrid() {

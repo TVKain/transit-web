@@ -26,6 +26,12 @@ class VPCApi {
 
         return result.data;
     }
+
+    static async get(vpcId: string): Promise<VPC> {
+        const result = await axios.get(`${url}/vpcs/${vpcId}`);
+
+        return result.data;
+    }
 }
 
 export { VPCApi };
