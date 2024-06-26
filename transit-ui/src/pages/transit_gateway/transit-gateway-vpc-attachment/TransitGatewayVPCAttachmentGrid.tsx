@@ -30,10 +30,16 @@ export default function TransitGatewayVPCAttachmentGrid() {
     const columns: GridColDef<TransitGatewayVPCAttachment>[] = [
         { field: 'id', headerName: 'ID', flex: 0.32 },
         {
+            field: 'name',
+            headerName: 'Name',
+            flex: 0.1
+        },
+        {
             field: 'transit_gateway_id',
             headerName: 'Transit Gateway ID',
             flex: 0.28
         },
+
         {
             field: 'vpc_id',
             headerName: 'VPC ID',

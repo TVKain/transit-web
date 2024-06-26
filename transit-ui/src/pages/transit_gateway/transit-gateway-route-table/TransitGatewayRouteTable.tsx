@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import TransitGatewayRouteTableGrid from "./TransitGatewayRouteTableGrid";
 
 import TransitGatewayRouteTableVPCCreateForm from "./TransitGatewayRouteTableVPCCreateForm";
+import TransitGatewayRouteTablePeeringCreateForm from "./TransitGatewayRouteTablePeeringCreateForm";
 
 
 
@@ -65,5 +66,9 @@ export default function TransitGateway() {
             <TransitGatewayRouteTableVPCCreateForm closeDialog={closeDialog} />
         </DialogComponent>
 
+
+        <DialogComponent dialogId="create-transit-gateway-peering-route" title="Create Transit Gateway Peering Route" contextText="Create Transit Gateway Peering Route" dividers={true}>
+            <TransitGatewayRouteTablePeeringCreateForm closeDialog={closeDialog} />
+        </DialogComponent>
     </Box >
 }

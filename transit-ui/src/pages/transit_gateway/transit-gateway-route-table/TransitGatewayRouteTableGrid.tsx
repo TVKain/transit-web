@@ -14,7 +14,8 @@ import GenericMenu from "../../../components/ui/GenericMenu";
 import { useGetTransitGatewayRoute } from "../../../hooks/useTransitGatewayRoute";
 import { useDialog } from "../../../context/DialogContext";
 import { useState } from "react";
-import TransitGatewayRouteTableDeleteForm from "./TransitGatewayRouteTableDeleteForm";
+import TransitGatewayRouteTableDeleteForm from "./TransitGatewayRouteTableVPCDeleteForm";
+import TransitGatewayRouteTablePeeringDeleteForm from "./TransitGatewayRouteTablePeeringDeleteForm";
 
 export default function TransitGatewayRouteTableGrid() {
 
@@ -80,6 +81,8 @@ export default function TransitGatewayRouteTableGrid() {
 
                                     if (values.row.type === "VPC")
                                         openDialog('delete-transit-gateway-vpc-route')
+                                    else if (values.row.type === "PEERING")
+                                        openDialog('delete-transit-gateway-peering-route')
                                 },
                                 icon: <Delete />,
                                 color: theme.palette.error.main
@@ -102,6 +105,12 @@ export default function TransitGatewayRouteTableGrid() {
         <DialogComponent dialogId="delete-transit-gateway-vpc-route" title="Delete Transit Gateway VPC Route" contextText="Delete Transit Gateway VPC Route" dividers={true}>
             <TransitGatewayRouteTableDeleteForm closeDialog={closeDialog} vpcRouteId={selectedRouteId!} />
         </DialogComponent>
+
+        <DialogComponent dialogId="delete-transit-gateway-peering-route" title="Delete Transit Gateway Peering Route" contextText="Delete Transit Gateway Peering Route" dividers={true}>
+            <TransitGatewayRouteTablePeeringDeleteForm closeDialog={closeDialog} peeringRouteId={selectedRouteId!} />
+        </DialogComponent>
+
+
         <DataGrid
             sx={{
                 '& .status-active': {

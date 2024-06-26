@@ -6,6 +6,7 @@ interface TransitGateway {
 }
 
 interface TransitGatewayVPCAttachment {
+    name: string;
     id: string; 
     transit_gateway_id: string;
     vpc_id: string; 
@@ -30,4 +31,13 @@ interface VPCTransitGatewayRoute {
     status: string;
 }
 
-export type { TransitGateway, TransitGatewayVPCAttachment, VPCTransitGatewayRoute, TransitGatewayRoute }
+interface TransitGatewayPeeringAttachment {
+    id: string; 
+    name: string;
+    transit_gateway_id: string;
+    peer_transit_gateway_id: string;
+    status: string;
+    remote_region_id: string; 
+}
+
+export type { TransitGateway, TransitGatewayVPCAttachment, VPCTransitGatewayRoute, TransitGatewayRoute, TransitGatewayPeeringAttachment }

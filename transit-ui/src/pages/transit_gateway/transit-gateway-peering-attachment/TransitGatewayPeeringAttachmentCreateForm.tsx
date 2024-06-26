@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, Input, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 
 
 import { useFormik } from "formik";
@@ -12,59 +12,60 @@ import { useQueryClient } from "react-query";
 import LoadingButton from "../../../components/ui/LoadingButton";
 import { useParams } from "react-router";
 
+import * as yup from "yup";
 
 import { useCreateTransitGatewayVPCAttachment, } from "../../../hooks/useTransitGatewayVPCAttachment";
 import Loading from "../../info/Loading";
-import { useGetVPC } from "../../../hooks/useVPC";
+
 import { useGetActiveTransitGateway } from "../../../hooks/useTransitGateway";
-import { useLocalStorage } from "@uidotdev/usehooks";
+import { useCreateTransitGatewayPeeringAttachment } from "../../../hooks/useTransitGatewayPeeringAttachment";
 
 
+const validationSchema = yup.object({
+    name: yup.string().required("Name is required"),
+    transit_gateway_id: yup.string().required("Transit gateway is required"),
+    remote_region_id: yup.string().required("Remote region is required"),
+    remote_transit_gateway_id: yup.string().required("Remote transit gateway is required"),
+})
 
 
-export default function TransitGatewayVPCAttachmentCreateForm({ closeDialog }: { closeDialog: () => void }) {
+export default function TransitGatewayPeeringAttachmentCreateForm({ closeDialog }: { closeDialog: () => void }) {
     const { regionId } = useParams()
-
-    const [userId] = useLocalStorage<string | null>("user_id", null)
 
     const clientQuery = useQueryClient()
 
-    const { vpcs, isLoading: isLoadingVPCs } = useGetVPC(userId!, regionId!)
 
     const { transitGateways, isLoading: isLoadingTransitGateways } = useGetActiveTransitGateway(regionId!)
 
+    const { createTransitGatewayPeeringAttachmentMutation } = useCreateTransitGatewayPeeringAttachment()
 
-    const { createTransitGatewayVPCAttachment } = useCreateTransitGatewayVPCAttachment()
 
     const formik = useFormik({
         initialValues: {
             name: "",
-            vpc_id: isLoadingVPCs ? "" : vpcs?.length === 0 ? "" : vpcs![0].id,
             transit_gateway_id: isLoadingTransitGateways ? "" : transitGateways?.length === 0 ? "" : transitGateways![0].id,
+            remote_region_id: "",
+            remote_transit_gateway_id: "",
         },
+        validationSchema: validationSchema,
         onSubmit: (values, { setSubmitting }) => {
             async function handleSubmit() {
                 try {
 
-                    const vpc_info = vpcs?.find(vpc => vpc.id === values.vpc_id)
 
-                    const arg = {
+                    await createTransitGatewayPeeringAttachmentMutation.mutateAsync({
                         name: values.name,
-                        region_id: regionId!,
-                        vpc_id: values.vpc_id,
                         transit_gateway_id: values.transit_gateway_id,
-                        vpc_router_id: vpc_info?.router_id!,
-                        vpc_cidr: vpc_info?.cidr!
-                    }
+                        region_id: regionId!,
+                        remote_region_id: values.remote_region_id,
+                        remote_transit_gateway_id: values.remote_transit_gateway_id
+                    })
 
-
-                    await createTransitGatewayVPCAttachment.mutateAsync(arg)
-
-                    clientQuery.invalidateQueries({ queryKey: ['transit-gateway-vpc-attachments'] })
-                    toast.success("Sending request to create Transit gateway VPC attachmetn")
+                    clientQuery.invalidateQueries({ queryKey: ['transit-gateway-peering-attachments'] })
+                    toast.success("Sending request to create Transit gateway Peering attachment")
                     closeDialog()
                 } catch (error: any) {
-                    toast.error(`Create route Transit gateway VPC attachment ${error.response.data.detail}`)
+                    toast.error(`${error.response.data.detail}`)
                 } finally {
                     setSubmitting(false)
                 }
@@ -74,12 +75,12 @@ export default function TransitGatewayVPCAttachmentCreateForm({ closeDialog }: {
         },
     });
 
-    if (isLoadingTransitGateways || isLoadingVPCs)
+    if (isLoadingTransitGateways)
         return <Loading />
 
 
     return <form onSubmit={(event) => { event.preventDefault(); formik.handleSubmit() }}>
-        <Box display="flex" flexDirection="column" gap={2.5} marginTop={2}>
+        <Box display="flex" flexDirection="column" gap={2} marginTop={2}>
 
             <TextField
 
@@ -119,25 +120,46 @@ export default function TransitGatewayVPCAttachmentCreateForm({ closeDialog }: {
 
             </FormControl>
 
+            <TextField
 
-            <FormControl fullWidth size="small">
-                <InputLabel id="vpc-label">VPC</InputLabel>
-                <Select labelId="vpc-label" label="VPC" size="small" fullWidth disabled={vpcs!.length === 0} value={formik.values.vpc_id} onChange={(event) => {
-                    formik.setFieldValue("vpc_id", event.target.value)
-                }}>
-                    {vpcs!.map((attachment) => {
-                        return <MenuItem key={attachment.id} value={attachment.id}>
-                            {attachment.id} - {`[${attachment.name}]`}
-                        </MenuItem>
-                    })}
-                </Select>
-            </FormControl>
+                margin="dense"
+                label="Remote region ID"
+                size="small"
+                fullWidth
+                disabled={formik.isSubmitting}
+                id="remote_region_id"
+                name="remote_region_id"
+                value={formik.values.remote_region_id}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.remote_region_id && Boolean(formik.errors.remote_region_id)}
+                helperText={formik.touched.remote_region_id && formik.errors.remote_region_id}
+            />
+
+
+            <TextField
+
+                margin="dense"
+                label="Remote transit gateway ID"
+                size="small"
+                fullWidth
+                disabled={formik.isSubmitting}
+                id="remote_transit_gateway_id"
+                name="remote_transit_gateway_id"
+                value={formik.values.remote_transit_gateway_id}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.remote_transit_gateway_id && Boolean(formik.errors.remote_transit_gateway_id)}
+                helperText={formik.touched.remote_transit_gateway_id && formik.errors.remote_transit_gateway_id}
+            />
+
+
 
 
             <Box alignSelf="end" display="flex">
                 <Button variant="text" size="medium" color="inherit" onClick={() => closeDialog()}>Cancel</Button>
 
-                <LoadingButton size="medium" variant="text" disabled={formik.isSubmitting || vpcs!.length === 0 || transitGateways!.length === 0} type="submit" loading={formik.isSubmitting}>
+                <LoadingButton size="medium" variant="text" disabled={formik.isSubmitting || transitGateways!.length === 0} type="submit" loading={formik.isSubmitting}>
                     Submit
                 </LoadingButton>
             </Box>

@@ -60,4 +60,32 @@ const useDeleteTransitGatewayVPCRoute = () => {
     return { deleteTransitGatewayVPCRoute };
 }
 
-export { useGetTransitGatewayRoute, useCreateTransitGatewayVPCRoute, useDeleteTransitGatewayVPCRoute};
+const useCreateTransitGatewayPeeringRoute = () => {
+    const createTransitGatewayPeeringRoute = useMutation(
+        async ({ region_id, destination_cidr, transit_gateway_peering_attachment_id }: { region_id: string; destination_cidr: string; transit_gateway_peering_attachment_id: string }) => {
+            return await TransitGatewayRouteApi.createPeeringRoute(region_id, { destination_cidr, transit_gateway_peering_attachment_id });
+        }
+    );
+
+    return { createTransitGatewayPeeringRoute };
+}
+
+const useDeleteTransitGatewayPeeringRoute = () => {
+    const deleteTransitGatewayPeeringRoute = useMutation(
+        async ({ region_id, route_id }: { region_id: string; route_id: string }) => {
+            return await TransitGatewayRouteApi.deletePeeringRoute(region_id, route_id);
+        }
+    );
+
+    return { deleteTransitGatewayPeeringRoute };
+}
+
+
+
+export { 
+    useGetTransitGatewayRoute, 
+    useCreateTransitGatewayVPCRoute, 
+    useDeleteTransitGatewayVPCRoute, 
+    useCreateTransitGatewayPeeringRoute, 
+    useDeleteTransitGatewayPeeringRoute
+};

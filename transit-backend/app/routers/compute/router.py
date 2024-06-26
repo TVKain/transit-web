@@ -1,3 +1,4 @@
+import logging
 from fastapi import APIRouter, HTTPException
 
 from app.api.openstack_api import OpenStackAuth
@@ -54,6 +55,28 @@ def create(request: CreateComputeRequest):
         )
 
         server = connection.compute.wait_for_server(server)
+        
+        try:
+            compute_ports = connection.list_ports(
+                filters={"device_id": server.id}
+            )
+
+            logging.info("Disabling port security for ports")
+
+            for compute_port in compute_ports:
+                connection.update_port(
+                    name_or_id=compute_port.id, security_groups=[]
+                )
+                connection.update_port(
+                    name_or_id=compute_port.id, port_security_enabled=False
+                )
+
+            logging.info("Disabling port security for ports done")
+        except Exception as e:
+            logging.info(f"Error disabling port security for ports {e}")
+        
+        
+        
     except Exception as e:
         raise HTTPException(400, detail=str(e)) from e
 

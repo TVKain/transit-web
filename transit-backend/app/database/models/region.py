@@ -10,3 +10,4 @@ class RegionModel(SQLModel, table=True):
     id: str = Field(primary_key=True)
     auth_url: str
     provider_id: str | None
+    transit_service_url: str | None 

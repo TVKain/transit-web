@@ -14,6 +14,7 @@ class TransitGatewayVPCAttachmentApi {
     }
 
     static async create(regionId: string, data: {
+        name: string, 
         transit_gateway_id: string,
         vpc_id: string,
         vpc_router_id: string,

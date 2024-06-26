@@ -9,7 +9,7 @@ const Home = () => {
     return <Box height="100%" display="flex" justifyContent="center" alignItems="center">
 
         <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" height="100%" padding={2} gap={2}>
-
+            <img src="/assets/icon.svg" width={128} />
             <Box display="flex" gap={2} justifyContent="center" alignItems="center">
                 <WavingHandIcon fontSize="large" color="primary" />
                 <Typography variant="h4">Welcome to MINI CLOUD</Typography>

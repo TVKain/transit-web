@@ -29,7 +29,7 @@ export default function TransitGatewayGrid() {
     const { DialogComponent, openDialog, closeDialog } = useDialog()
 
     const columns: GridColDef<TransitGateway>[] = [
-        { field: 'id', headerName: 'ID', flex: 0.4 },
+        { field: 'id', headerName: 'ID', flex: 0.3 },
         {
             field: 'name',
             headerName: 'Name',
@@ -53,13 +53,7 @@ export default function TransitGatewayGrid() {
                 }
             },
         },
-        {
-            field: 'created_at',
 
-            headerName: 'Created at',
-
-            flex: 0.2
-        },
         {
             field: 'actions',
             type: 'actions',

@@ -20,7 +20,26 @@ class TransitGatewayRouteApi {
             type: 'VPC',
         }})
 
-        return vpcRoutes
+        const routeResponse = await axios.get<TransitGatewayRoute[]>(`${chooseRegion(regionId)}/transit_gateway_peering_routes/`, {
+            params: {
+                transit_gateway_id,
+            },
+        })
+
+        let peeringRoutes = routeResponse.data.map((route) => {
+            
+            return {
+            id: route.id,
+            status: route.status,
+            // @ts-ignore
+            destination: route.destination_cidr as string,
+            // @ts-ignore
+            target: route.transit_gateway_peering_attachment_id as string, 
+            type: 'PEERING',
+        }})
+
+
+        return vpcRoutes.concat(peeringRoutes)
     }
 
     static async createVPCRoute(regionId: string, data: {
@@ -39,10 +58,17 @@ class TransitGatewayRouteApi {
         return result.data
     }
 
-    static async create(regionId: string, data: { name?: string }) {
+    static async createPeeringRoute(regionId: string, data: {
+        destination_cidr: string,
+        transit_gateway_peering_attachment_id: string
+    }) {
+        const result = await axios.post(`${chooseRegion(regionId)}/transit_gateway_peering_routes/`, data)
 
+        return result.data
+    }
 
-        const result = await axios.post(`${chooseRegion(regionId)}/transit_gateways/`, data)
+    static async deletePeeringRoute(regionId: string, routeId: string) {
+        const result = await axios.delete(`${chooseRegion(regionId)}/transit_gateway_peering_routes/${routeId}`)
 
         return result.data
     }

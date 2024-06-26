@@ -43,6 +43,7 @@ export default function TransitGatewayVPCAttachmentGrid() {
             headerName: 'Target',
             flex: 0.3
         },
+
         {
             field: 'status',
             headerName: 'Status',

@@ -106,6 +106,7 @@ const Sidebar = () => {
                         )}
                     </Select>
                 </FormControl>
+                <TextField size="small" label="ID" value={vpcId} />
                 <TextField size="small" label="CIDR" value={currentRegion.vpcs.find((vpc) => vpc.id === vpcId)!.cidr} />
             </>
             : <>

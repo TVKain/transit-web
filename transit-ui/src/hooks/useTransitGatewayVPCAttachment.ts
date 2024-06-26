@@ -12,6 +12,7 @@ function useCreateTransitGatewayVPCAttachment() {
             vpc_id, 
             vpc_router_id, 
             vpc_cidr, 
+            name, 
         }: {
            
             region_id: string;
@@ -19,9 +20,11 @@ function useCreateTransitGatewayVPCAttachment() {
             vpc_id: string, 
             vpc_router_id: string, 
             vpc_cidr: string
+            name: string
             
         }) => {
             return await TransitGatewayVPCAttachmentApi.create(region_id, { 
+                name,
                 transit_gateway_id,  
                 vpc_id, 
                 vpc_router_id, 

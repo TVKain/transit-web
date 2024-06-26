@@ -106,7 +106,7 @@ export default function VPCRouteTableCreateForm({ closeDialog }: { closeDialog: 
                     value={formik.values.transitGatewayVPCAttachmentId}>
                     {transitGatewayVPCAttachments!.map((attachment) => {
                         return <MenuItem key={attachment.id} value={attachment.id}>
-                            {attachment.id}
+                            {attachment.id} - {attachment.name ? `[${attachment.name}]` : `[Empty Name]`}
                         </MenuItem>
                     })}
                 </Select>

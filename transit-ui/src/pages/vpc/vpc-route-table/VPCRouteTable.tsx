@@ -17,7 +17,7 @@ export default function VPC() {
             <div>
 
                 <Typography variant="h5" fontWeight="bold">
-                    VPC
+                    VPC Route Table
                 </Typography>
                 <Typography variant="body1" color={"gray"}>
                     Manage your Virtual Private Cloud Route Table
